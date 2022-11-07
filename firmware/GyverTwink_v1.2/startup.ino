@@ -23,7 +23,7 @@ void startStrip() {
   leds[0] = CRGB::Red;
   leds[1] = CRGB::Green;
   leds[2] = CRGB::Blue;
-  
+
   leds[NUM_LEDS_PER_STRIP+0] = CRGB::Red;
   leds[NUM_LEDS_PER_STRIP+1] = CRGB::Green;
   leds[NUM_LEDS_PER_STRIP+2] = CRGB::Blue;
@@ -56,7 +56,9 @@ void setupAP() {
 }
 
 void setupSTA() {
-  DEBUG("Connecting to AP... ");
+  DEBUG("Connecting to ");
+  DEBUG(portalCfg.SSID);
+  DEBUG(" ... ");
   WiFi.softAPdisconnect();
   WiFi.disconnect();
   WiFi.mode(WIFI_STA);
