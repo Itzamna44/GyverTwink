@@ -1,7 +1,7 @@
 const char index_page[] PROGMEM = R"rawliteral(
 
 <!DOCTYPE HTML><html><head>
-<title>Gyver Twink v1.2 - WEBServer</title>
+<title>Gyver Twink v1.4 - WEBServer</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -35,7 +35,7 @@ function loadserver(){
 
 const char setting_page[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html><head>
-<title>Gyver Twink v1.2 - WEBServer. Настройки</title>
+<title>Gyver Twink v1.4 - WEBServer. Настройки</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script> function createXMLHttp() {if (typeof XMLHttpRequest != "undefined") {return new XMLHttpRequest();} else if (window.ActiveXObject) { var aVersions = ["MSXML2.XMLHttp.5.0","MSXML2.XMLHttp.4.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp","Microsoft.XMLHttp"];for (var i = 0; i < aVersions.length; i++) {try {var oXmlHttp = new ActiveXObject(aVersions[i]);return oXmlHttp;} catch (oError) {}}throw new Error("Невозможно создать объект XMLHttp.");}}; </script>
@@ -66,7 +66,7 @@ setTimeout("loadserver()", 10);
     }
 </style>
 <center>
-<h3>Gyver Twink v1.3. Настройки</h3>
+<h3>Gyver Twink v1.4. Настройки</h3>
 <form action="/changeset" method="GET">
     Количество светодиодов: <input id="ledcount" type="number" min='0' min='500' name="ledcount"> <br />
     Автоматическая смена эффектов: <input id="ace" type="checkbox" name="ace"> <br />
