@@ -3,12 +3,15 @@
   - Страница проекта (схемы, описания): https://alexgyver.ru/gyvertwink/
   - Исходники на GitHub: https://github.com/AlexGyver/GyverTwink
   Проблемы с загрузкой? Читай гайд для новичков: https://alexgyver.ru/arduino-first/
+  Нормально работает только на последних версиях ядра esp8266
   AlexGyver, AlexGyver Technologies, 2021
+  Alexey, MicrofCorp, 2021
 */
 
 /*
   1.1 - исправлена калибровка больше 255 светодиодов
   1.2 - исправлена ошибка с калибровкой
+  1.2 - WEBServer (by MicrofCorp) - добавленно HTTP управление
 */
 
 /*
@@ -38,6 +41,7 @@
 
 // ================== LIBS ==================
 #include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
 #include <WiFiUdp.h>
 #include <SimplePortal.h>
 #include <FastLED.h>
@@ -48,6 +52,7 @@
 
 // ================== OBJECTS ==================
 WiFiServer server(80);
+ESP8266WebServer webserver(80);
 WiFiUDP udp;
 EEManager EEwifi(portalCfg);
 CRGB leds[NUM_LEDS];
@@ -137,11 +142,15 @@ void setup() {
   cfg.turnOff = false;
   //FastLED.setLeds(leds, cfg.ledAm);
   udp.begin(8888);
+  
+  htmlstart();
 }
 
 // ================== LOOP ==================
 void loop() {
   button();   // опрос кнопки
+  
+  webserver.handleClient(); //обновление web сервера
 
   // менеджер епром
   EEcfg.tick();
