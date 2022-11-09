@@ -115,7 +115,7 @@ void htmlstart(){
   });
   webserver.on("/changeset", [&]() {
     cfg.ledAm = webserver.arg("ledcount").toInt();
-    strip->setLeds(leds, cfg.ledAm);
+    //FastLED.setLeds(leds, cfg.ledAm);
 
     cfg.autoCh = webserver.arg("ace") == "on";
     if (cfg.autoCh) switchTmr.restart();
@@ -133,7 +133,9 @@ void htmlstart(){
     offTmr.setPrd(cfg.offTmr * 60000ul);
     if (cfg.turnOff) offTmr.restart();
 
-    if (!cfg.power) strip->showLeds(0);
+    if (!cfg.power) 
+    FastLED.setBrightness(0);
+    FastLED.show();
     EEcfg.updateNow();
 
     webserver.send(200, "text/html", index_page);
@@ -149,7 +151,9 @@ void htmlstart(){
 void CP(bool pw){
     DEBUGLN("power change");
     cfg.power = pw;
-    if (!cfg.power) strip->showLeds(0);
+    if (!cfg.power) 
+    FastLED.setBrightness(0);
+    FastLED.show();
     EEcfg.update();
 }
 
@@ -164,7 +168,8 @@ void CB(int changevalue, int m){
     else bri -= changevalue;
     bri = constrain(bri, 0, 255);      
     cfg.bright = bri;
-    strip->showLeds(bri);
+    FastLED.setBrightness(bri);
+    FastLED.show();
     EEcfg.update();
   }
 }
