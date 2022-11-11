@@ -58,6 +58,7 @@ IPAddress myIP;
 struct Cfg {
   uint16_t strAm = 3;
   uint16_t ledAm = 100;
+  bool power = 0;
   byte bright = 100;
   bool autoCh = 0;
   bool rndCh = 0;
