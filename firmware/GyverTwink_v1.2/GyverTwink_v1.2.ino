@@ -31,10 +31,17 @@
 #define NUM_LEDS_PER_STRIP 100
 #define NUM_LEDS (NUM_LEDS_PER_STRIP * NUM_STRIPS)
 
+
+#define MATRIX_WIDTH                 (60U)                         // ширина матрицы
+#define MATRIX_HEIGHT                (90U)                         // высота матрицы
+#define WIDTH                 (60U)                         // ширина матрицы
+#define HEIGHT                (90U)                         // высота матрицы
+
 // имя точки в режиме AP
 #define GT_AP_SSID "GyverTwink"
 #define GT_AP_PASS "12345678"
 #define DEBUG_SERIAL_GT   // раскомментируй, чтобы включить отладку
+#define Arduino_OTA
 
 // ================== LIBS ==================
 #include <ESP8266WiFi.h>
@@ -45,6 +52,9 @@
 #include <EncButton.h>
 #include "palettes.h"
 #include "Timer.h"
+#ifdef Arduino_OTA
+  #include <ArduinoOTA.h>
+#endif
 
 // ================== OBJECTS ==================
 WiFiServer server(80);
@@ -56,8 +66,8 @@ IPAddress myIP;
 
 // ================== EEPROM BLOCKS ==================
 struct Cfg {
-  uint16_t strAm = 3;
-  uint16_t ledAm = 100;
+  byte strAm = 3;
+  byte ledAm = 100;
   bool power = 0;
   byte bright = 100;
   bool autoCh = 0;
@@ -97,6 +107,7 @@ Timer forceTmr(30000, false);
 Timer switchTmr(0, false);
 Timer offTmr(60000, false);
 bool calibF = false;
+bool paintF = false;
 byte curEff = 0;
 byte forceEff = 0;
 
@@ -138,6 +149,9 @@ void setup() {
   cfg.turnOff = false;
   //FastLED.setLeds(leds, cfg.ledAm);
   udp.begin(8888);
+  #ifdef Arduino_OTA
+    ArduinoOTA.begin();
+  #endif
 }
 
 // ================== LOOP ==================
@@ -171,5 +185,30 @@ void loop() {
   }
 
   // показываем эффект, если включены
-  if (!calibF && cfg.power) effects();
+  if (!calibF && !paintF && cfg.power) {
+    //effectsTick();
+    sparklesRoutine();
+    //rainbowVerticalRoutine();
+    //snowStormRoutine();
+    //matrixRoutine();
+    //snowRoutine();
+    /*
+    for(int x=0;x<MATRIX_WIDTH;x++) {
+      for(int y=0;y<MATRIX_HEIGHT;y++) {
+        drawPixelXY(x,y,CRGB::White);
+      }
+    }
+    */
+    /*drawPixelXY(5,5,CRGB::Red);
+    drawPixelXY(10,10,CRGB::Green);
+    drawPixelXY(15,15,CRGB::Blue);
+    drawPixelXY(20,20,CRGB::White);
+    drawPixelXY(25,25,CRGB::Cyan);
+    drawPixelXY(30,30,CRGB::Magenta);
+    drawPixelXY(35,35,CRGB::Yellow);*/
+    FastLED.setBrightness(cfg.bright);
+    FastLED.show(); 
+
+    //effects();
+  }
 }

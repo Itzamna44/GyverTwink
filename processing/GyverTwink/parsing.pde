@@ -16,7 +16,8 @@ void receive(byte[] ubuf) {
 
   case 1: // Настройки 
     searchF = false;
-    leds.text = str(data[1] * 100 + data[2]);
+    leds.text = str(data[1]);
+    strips.text = str(data[2]);
     power.value = boolean(data[3]);
     bri.value = data[4];
     auto.value = boolean(data[5]);
@@ -31,6 +32,12 @@ void receive(byte[] ubuf) {
     fav.value = boolean(data[1]);
     scl.value = data[2];
     spd.value = data[3];
+    break;
+    
+  case 5: // Размер окна рисования
+    XX = data[1];
+    YY = data[2];
+    picMap = new int[XX][YY];
     break;
   }
 }
